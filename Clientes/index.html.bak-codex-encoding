@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Goianos Barbearia - GB</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="toast-container"></div>
+
+    <section id="tela-login" class="login-screen hidden">
+        <div class="login-bg"></div>
+        <div class="login-card card">
+            <img src="Imagens/Logo GB.png" alt="Goianos Barbearia" class="login-logo">
+            <p class="eyebrow">Goianos Barbearia</p>
+            <h1>Acesso Administrativo</h1>
+            <p class="muted">Acesse o painel para acompanhar a fila, os planos e os atendimentos da barbearia.</p>
+            <form id="form-login" class="form-stack">
+                <label>Login
+                    <input id="login-usuario" class="input-estilizado" value="admin" autocomplete="username">
+                </label>
+                <label>Senha
+                    <input id="login-senha" class="input-estilizado" type="password" value="1234" autocomplete="current-password">
+                </label>
+                <button class="btn btn-primary" type="submit"><i data-lucide="log-in"></i> Entrar</button>
+            </form>
+            <p class="login-hint">Usuário inicial: admin / 1234</p>
+        </div>
+        <footer>Desenvolvido por Felipe Aguiar em 2026</footer>
+    </section>
+
+    <nav id="nav-admin" class="top-nav hidden">
+            <div class="nav-brand">
+            <img src="Imagens/Logo GB.png" alt="GB" class="mini-logo-img">
+            <div>
+                <strong>Goianos Barbearia</strong>
+                <span>Sistema de Gestão</span>
+            </div>
+        </div>
+        <button class="menu-toggle" onclick="toggleMenu()"><i data-lucide="menu"></i></button>
+        <div id="nav-links" class="nav-links">
+            <button class="nav-item active" onclick="abrirAba('dashboard', this)"><i data-lucide="layout-dashboard"></i> Dashboard</button>
+            <button class="nav-item" onclick="abrirAba('totem', this)"><i data-lucide="panel-top"></i> Totem</button>
+            <button class="nav-item" onclick="abrirAba('tv', this)"><i data-lucide="monitor"></i> TV</button>
+            <button class="nav-item" onclick="abrirAba('controle', this)"><i data-lucide="users-round"></i> Controle</button>
+            <button class="nav-item" onclick="abrirAba('acessos', this)"><i data-lucide="shield-check"></i> Acessos</button>
+            <button class="nav-item" onclick="abrirAba('config', this)"><i data-lucide="settings"></i> Config</button>
+            <button class="nav-icon" onclick="sairAdmin()" title="Sair"><i data-lucide="log-out"></i></button>
+        </div>
+    </nav>
+
+    <main id="site-publico">
+        <nav class="floating-public-nav" aria-label="Navegação fixa">
+            <div class="public-menu public-menu-main">
+                <div class="public-menu-group public-menu-left">
+                    <a href="#inicio">Início</a>
+                    <a href="#portfolio">Portfólio</a>
+                    <a href="#avaliacoes">Avaliações</a>
+                </div>
+                <div class="public-menu-group public-menu-right">
+                    <a href="#unidades">Localização</a>
+                    <a href="#plano">Plano GB</a>
+                    <button type="button" onclick="abrirConsultaPlano()">Consultar plano</button>
+                </div>
+            </div>
+            <a class="public-logo" href="#inicio" aria-label="Goianos Barbearia">
+                <img src="Imagens/Logo GB.png" alt="GB">
+            </a>
+            <button class="public-menu-toggle" type="button" onclick="togglePublicMenu(this)" aria-label="Abrir menu"><i data-lucide="menu"></i></button>
+        </nav>
+
+        <header id="inicio" class="hero">
+            <div class="hero-overlay"></div>
+            <nav class="public-nav">
+                <div class="public-menu public-menu-main">
+                    <div class="public-menu-group public-menu-left">
+                        <a href="#inicio">Início</a>
+                        <a href="#portfolio">Portfólio</a>
+                        <a href="#avaliacoes">Avaliações</a>
+                    </div>
+                    <div class="public-menu-group public-menu-right">
+                        <a href="#unidades">Localização</a>
+                        <a href="#plano">Plano GB</a>
+                        <button type="button" onclick="abrirConsultaPlano()">Consultar plano</button>
+                    </div>
+                </div>
+                <a class="public-logo" href="#inicio" aria-label="Goianos Barbearia">
+                    <img src="Imagens/Logo GB.png" alt="GB">
+                </a>
+                <button class="public-menu-toggle" type="button" onclick="togglePublicMenu(this)" aria-label="Abrir menu"><i data-lucide="menu"></i></button>
+            </nav>
+            <div class="hero-content">
+                <p class="eyebrow">Goianos Barbearia - GB</p>
+                <h1>Cuidado no visual com praticidade todos os meses.</h1>
+                <p>Escolha seu plano Goiano's Club e mantenha cabelo, barba ou combo sempre em dia.</p>
+                <div class="hero-actions">
+                    <a class="btn btn-primary btn-lg" href="#plano"><i data-lucide="badge-dollar-sign"></i> Conhecer planos</a>
+                </div>
+            </div>
+            <div class="cut-divider" aria-hidden="true">
+                <div class="cut-track">
+                    <span class="cut-track-cut"></span>
+                    <span class="cut-track-glow"></span>
+                </div>
+                <div class="cut-scissors"><i data-lucide="scissors"></i></div>
+            </div>
+        </header>
+
+        <section id="portfolio" class="section">
+            <div class="section-head">
+                <p class="eyebrow">Portfólio</p>
+                <h2>Acabamento bem feito, atendimento organizado e ambiente pensado para você.</h2>
+            </div>
+            <div class="portfolio-grid">
+                <article class="portfolio-card big"><span>Degradê bem finalizado</span></article>
+                <article class="portfolio-card"><span>Barba alinhada</span></article>
+                <article class="portfolio-card"><span>Corte social</span></article>
+                <article class="portfolio-card wide"><span>Planos para cabelo, barba ou combo</span></article>
+            </div>
+        </section>
+
+        <section class="section owner-section">
+            <div class="owner-photo">
+                <img src="Imagens/Foto Goiano.png" alt="Goiano, dono da Goianos Barbearia">
+            </div>
+            <div class="owner-copy">
+                <p class="eyebrow">Nossa essência</p>
+                <h2>Atendimento de perto, corte caprichado e rotina mais simples para cuidar do visual.</h2>
+                <p class="muted">A Goianos Barbearia une experiência, pontualidade e planos mensais para quem gosta de ser bem atendido e sair pronto para o dia.</p>
+                <div class="owner-highlights">
+                    <span>Planos mensais</span>
+                    <span>Atendimento acolhedor</span>
+                    <span>Ambiente confortável</span>
+                </div>
+            </div>
+        </section>
+
+        <section id="plano" class="section plan-band">
+            <div>
+                <p class="eyebrow">Goiano's Club</p>
+                <h2>Goiano's Club</h2>
+                <p class="muted">Planos mensais para cuidar do cabelo, da barba ou dos dois, com mais economia e tranquilidade.</p>
+            </div>
+            <div class="plan-cards">
+                <article class="price-card featured">
+                    <em>Mais vendido</em>
+                    <h3>Goiano's Club Combo</h3>
+                    <p>Ideal para manter corte e barba sempre alinhados, com 10% de desconto nos demais serviços e produtos.</p>
+                    <div><span>R$</span><strong>99,90</strong><small>/mês</small></div>
+                    <button class="btn btn-primary" onclick="abrirModalAssinar('combo')">Escolher plano</button>
+                </article>
+                <article class="price-card">
+                    <h3>Goiano's Club Barba</h3>
+                    <p>Para quem gosta da barba sempre bem cuidada, com 10% de desconto nos demais serviços.</p>
+                    <div><span>R$</span><strong>54,90</strong><small>/mês</small></div>
+                    <button class="btn btn-primary" onclick="abrirModalAssinar('barba')">Escolher plano</button>
+                </article>
+                <article class="price-card">
+                    <h3>Goiano's Club Cabelo</h3>
+                    <p>Para manter o corte e o acabamento em dia, com 10% de desconto nos demais serviços e produtos.</p>
+                    <div><span>R$</span><strong>54,90</strong><small>/mês</small></div>
+                    <button class="btn btn-primary" onclick="abrirModalAssinar('cabelo')">Escolher plano</button>
+                </article>
+            </div>
+        </section>
+
+        <section id="avaliacoes" class="section reviews-section">
+            <div class="reviews-head">
+                <div>
+                    <p class="eyebrow">Avaliações</p>
+                    <h2>Quem passa por aqui recomenda a experiência.</h2>
+                </div>
+                <button class="btn btn-soft btn-lg" onclick="abrirFluxoAvaliacao()"><i data-lucide="star"></i> Deixar avaliação</button>
+            </div>
+            <div id="lista-avaliacoes-publicas" class="reviews-grid"></div>
+        </section>
+
+        <section id="unidades" class="section locations-section">
+            <div class="locations-intro">
+                <div>
+                <p class="eyebrow">Localização</p>
+                <h2>Estamos em Ceilândia Sul para receber você.</h2>
+                </div>
+            </div>
+
+            <div class="locations-grid">
+                <article class="location-card location-live">
+                    <div class="location-copy">
+                        <span class="location-status">Atendimento presencial</span>
+                        <h3>Goianos Barbearia - GB</h3>
+                        <p>Venha cuidar do visual com conforto, organização e atendimento próximo.</p>
+                        <div class="unit-details">
+                            <span><i data-lucide="clock"></i> Segunda a sábado: 9h às 20h</span>
+                            <span><i data-lucide="sun"></i> Domingo: 9h às 14h</span>
+                            <span><i data-lucide="map-pin"></i> Avenida P4, Ceilândia Sul EQNP 30/34 - Ceilândia, Brasília - DF</span>
+                        </div>
+                        <div class="location-actions">
+                            <a class="btn btn-primary" href="https://maps.app.goo.gl/TCo9g1qx1W7uDYRs5" target="_blank" rel="noopener"><i data-lucide="map-pin"></i> Abrir no Maps</a>
+                        </div>
+                    </div>
+                    <div class="map-frame">
+                        <div class="map-toolbar" aria-label="Tipo de mapa">
+                            <button class="map-toggle active" type="button" data-map-mode="3d" onclick="alternarMapaGoianos('3d', this)">3D</button>
+                            <button class="map-toggle" type="button" data-map-mode="2d" onclick="alternarMapaGoianos('2d', this)">2D</button>
+                        </div>
+                        <div id="mapa-goianos-3d" class="custom-map custom-map-3d">
+                            <span class="map-store-pin" tabindex="0" role="button" aria-label="Informações da Goianos Barbearia">
+                                <i data-lucide="map-pin"></i>
+                                <span class="map-info-card">
+                                    <strong>Goianos Barbearia - GB</strong>
+                                    <small>Segunda a sábado: 9h às 20h</small>
+                                    <small>Domingo: 9h às 14h</small>
+                                    <small>Avenida P4, Ceilândia Sul EQNP 30/34 - Ceilândia, Brasília - DF, 72236-500</small>
+                                    <a href="https://maps.app.goo.gl/TCo9g1qx1W7uDYRs5" target="_blank" rel="noopener">Abrir no Maps</a>
+                                </span>
+                            </span>
+                        </div>
+                        <div id="mapa-goianos-2d" class="custom-map custom-map-2d hidden" aria-label="Mapa 2D da Goianos Barbearia">
+                            <iframe
+                                title="Mapa da Goianos Barbearia"
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4592.74617765331!2d-48.1187433!3d-15.850473099999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x935bcd30e5d1fd05%3A0x96f554eb23dcd891!2sGoiano%20Barbearia!5e1!3m2!1spt-BR!2sbr!4v1779846794145!5m2!1spt-BR!2sbr"
+                                loading="lazy"
+                                allowfullscreen
+                                referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <footer class="site-footer">
+            Desenvolvido por
+            <a href="https://wa.me/5561984425467" target="_blank" rel="noopener">
+                Felipe Aguiar
+                <span class="developer-tooltip">WhatsApp<br><strong>(061) 98442-5467</strong></span>
+            </a>
+            em 2026
+        </footer>
+    </main>
+
+    <main id="app-admin" class="admin-shell hidden">
+        <section id="aba-dashboard" class="tab-content active">
+            <div class="page-head">
+                <div>
+                    <h2>Dashboard</h2>
+                    <p>Operação do dia e indicadores da Goianos Barbearia.</p>
+                </div>
+                <button class="btn btn-primary" onclick="abrirAba('totem', document.querySelector('[onclick*=totem]'))"><i data-lucide="user-plus"></i> Novo cliente</button>
+            </div>
+            <div class="metric-grid">
+                <div class="card metric"><span>Clientes na loja</span><strong id="m-clientes-loja">0</strong><small>Aguardando e em atendimento</small></div>
+                <div class="card metric"><span>Barbeiros atendendo</span><strong id="m-barbeiros-atendendo">0</strong><small>Atendimentos em andamento</small></div>
+                <div class="card metric"><span>Tempo médio de espera</span><strong id="m-espera-media">00:00</strong><small>Fila atual</small></div>
+                <div class="card metric"><span>Faturamento do dia</span><strong id="m-faturamento-dia">R$ 0,00</strong><small>Atendimentos finalizados</small></div>
+            </div>
+            <div class="grid-2">
+                <div class="card">
+                    <div class="card-title"><i data-lucide="list-ordered"></i> Fila em tempo real</div>
+                    <div id="lista-dashboard-fila" class="list-stack"></div>
+                </div>
+                <div class="card">
+                    <div class="card-title"><i data-lucide="scissors"></i> Em atendimento</div>
+                    <div id="lista-dashboard-atendimento" class="list-stack"></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="aba-totem" class="tab-content">
+            <div class="page-head"><div><h2>Totem</h2><p>Entrada rápida do cliente por telefone.</p></div></div>
+            <div class="totem card">
+                <div class="totem-phone">
+                    <p class="eyebrow">Entrada na fila</p>
+                    <h3>Informe o telefone</h3>
+                    <input id="totem-telefone" class="input-estilizado input-xl" inputmode="numeric" placeholder="(062) 99999-9999">
+                    <button class="btn btn-primary" onclick="buscarClienteTotem()">Continuar</button>
+                </div>
+                <div id="totem-resultado" class="totem-result"></div>
+            </div>
+        </section>
+
+        <section id="aba-tv" class="tab-content">
+            <div class="page-head">
+                <div><h2>TV da Loja</h2><p>Visual de consulta para TV e tablet.</p></div>
+                <button class="btn btn-soft" onclick="abrirTvEmNovaAba()"><i data-lucide="external-link"></i> Abrir TV</button>
+            </div>
+            <div id="tv-preview" class="tv-panel"></div>
+        </section>
+
+        <section id="aba-controle" class="tab-content">
+            <div class="page-head">
+                <div><h2>Controle de Clientes</h2><p>Clientes, planos, pagamentos, expediente, relatórios e barbeiros.</p></div>
+            </div>
+            <div class="subtabs">
+                <button class="subtab active" onclick="abrirSubaba('clientes', this)">Clientes</button>
+                <button class="subtab" onclick="abrirSubaba('planos', this)">Planos</button>
+                <button class="subtab" onclick="abrirSubaba('pagamentos', this)">Pagamentos</button>
+                <button class="subtab" onclick="abrirSubaba('expediente', this)">Expediente</button>
+                <button class="subtab" onclick="abrirSubaba('barbeiros', this)">Barbeiros</button>
+                <button class="subtab" onclick="abrirSubaba('relatorios', this)">Relatórios</button>
+            </div>
+            <div id="sub-clientes" class="sub-content active"></div>
+            <div id="sub-planos" class="sub-content"></div>
+            <div id="sub-pagamentos" class="sub-content"></div>
+            <div id="sub-expediente" class="sub-content"></div>
+            <div id="sub-barbeiros" class="sub-content"></div>
+            <div id="sub-relatorios" class="sub-content"></div>
+        </section>
+
+        <section id="aba-acessos" class="tab-content">
+            <div class="page-head">
+                <div><h2>Acessos</h2><p>Criação por link, reset de senha e permissões.</p></div>
+                <button class="btn btn-primary" onclick="abrirModalAcesso()"><i data-lucide="user-plus"></i> Novo acesso</button>
+            </div>
+            <div id="lista-acessos" class="grid-cards"></div>
+        </section>
+
+        <section id="aba-config" class="tab-content">
+            <div class="page-head"><div><h2>Configurações</h2><p>Valores avulsos e ajustes comerciais.</p></div></div>
+            <div class="card">
+                <div class="card-title"><i data-lucide="badge-dollar-sign"></i> Serviços avulsos fictícios</div>
+                <div id="lista-servicos" class="service-editor"></div>
+                <button class="btn btn-primary" onclick="adicionarServico()">Adicionar serviço</button>
+            </div>
+        </section>
+    </main>
+
+    <div id="modal" class="modal hidden">
+        <div class="modal-box">
+            <button class="modal-close" onclick="fecharModal()"><i data-lucide="x"></i></button>
+            <div id="modal-body"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
