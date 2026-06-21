@@ -1,0 +1,51 @@
+﻿# Supabase - Goianos Barbearia
+
+## Como criar as tabelas
+
+1. Abra o projeto no Supabase.
+2. Entre em `SQL Editor`.
+3. Cole todo o conteúdo de `schema.sql`.
+4. Clique em `Run`.
+
+## Dados usados no site
+
+O site usa a chave pública do Supabase:
+
+```text
+NEXT_PUBLIC_SUPABASE_URL=https://zgnfymjjdjhctpttfmbs.supabase.co
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=sb_publishable_4Da89vFCOCrqmk7JxcmX2Q_xa1XmJWb
+```
+
+## Sincronização atual
+
+Para testar rápido, o site sincroniza o estado completo na tabela:
+
+```text
+gb_estado_app
+```
+
+## Confirmação de identidade grátis
+
+O fluxo de avaliação confirma a pessoa por e-mail usando o OTP do Supabase Auth. Esse é o caminho grátis viável para o projeto.
+
+SMS não foi adotado porque serviços de envio real por telefone dependem de provedores pagos, como Twilio, Zenvia ou similares. Trials gratuitos são limitados e não servem como base de produção.
+
+As outras tabelas já ficam preparadas para a versão avançada:
+
+```text
+gb_barbeiros
+gb_clientes
+gb_produtos_servicos
+gb_assinaturas
+gb_fila
+gb_atendimentos
+gb_expedientes
+gb_avaliacoes
+gb_fechamentos_mensais
+gb_fechamento_barbeiros
+gb_acessos
+```
+
+## Segurança
+
+As políticas da tabela `gb_estado_app` estão abertas para teste com a chave pública. Antes de produção, o painel admin deve usar autenticação real e políticas mais restritas.
